@@ -1,0 +1,47 @@
+{
+  "_leia_primeiro": [
+    "Estado da tarefa em execução agora; não é log. Escreva seguindo a skill nova-memoria (.claude/skills/nova-memoria/SKILL.md).",
+    "Só o orquestrador escreve aqui. Sem tarefa ativa, tarefa.id é null.",
+    "Os _modelo_* são o formato de cada item, com valores iniciais; significado dos campos em .claude/skills/nova-memoria/assets/campos.md."
+  ],
+  "_modelo_de_criterio": { "criterio": "", "verificado": false, "evidencia": null },
+  "_modelo_de_etapa": { "n": 1, "etapa": "", "responsavel": "orquestrador", "status": "pendente", "impedimento": null },
+  "_modelo_de_arquivo": { "caminho": "", "acao": "modificar", "autorizacao": "A-1", "feito": false },
+  "_modelo_de_autorizacao": { "id": "A-1", "data": null, "escopo": "", "caminhos": [] },
+  "_modelo_de_arquivo_apoio": { "caminho": "", "proposito": "" },
+  "atualizado_em": "2026-11-20T15:40",
+  "tarefa": {
+    "id": "TASK-004",
+    "titulo": "Endpoint de cadastro",
+    "demanda": "Criar o POST /clientes validando e-mail e recusando duplicados.",
+    "objetivo": "POST /clientes grava um cliente válido e responde 409 para e-mail repetido.",
+    "criterios_de_aceite": [
+      { "criterio": "POST com dados válidos responde 201 e grava o cliente.", "verificado": true, "evidencia": "pytest tests/test_clientes.py::test_cria — passou" },
+      { "criterio": "E-mail repetido responde 409.", "verificado": false, "evidencia": null }
+    ],
+    "fora_do_escopo": ["Autenticação dos endpoints."],
+    "status": "bloqueada",
+    "iniciada_em": "2026-11-19"
+  },
+  "plano": [
+    { "n": 1, "etapa": "Rota e esquema de validação", "responsavel": "orquestrador", "status": "feita", "impedimento": null },
+    { "n": 2, "etapa": "Testes do cadastro", "responsavel": "agente:tester", "status": "feita", "impedimento": null },
+    { "n": 3, "etapa": "Tratar e-mail duplicado", "responsavel": "orquestrador", "status": "bloqueada", "impedimento": "I-002" }
+  ],
+  "aguardando": "usuario",
+  "proximo_passo": "Aguardar a resposta do usuário ao I-002 e implementar o 409.",
+  "arquivos": [
+    { "caminho": "src/api/clientes.py", "acao": "criar", "autorizacao": "A-1", "feito": true },
+    { "caminho": "tests/test_clientes.py", "acao": "criar", "autorizacao": "A-1", "feito": true }
+  ],
+  "autorizacoes": [
+    { "id": "A-1", "data": "2026-11-19", "escopo": "Relatório do endpoint de cadastro: rota, validação e testes.", "caminhos": ["src/api/clientes.py", "tests/test_clientes.py"] }
+  ],
+  "decisoes_registradas": ["D-007"],
+  "pendencias_de_fechamento": {
+    "apontamentos_sem_disposicao": [],
+    "adrs_pendentes": []
+  },
+  "arquivos_apoio": [],
+  "notas_de_retomada": ["A unicidade do e-mail já é garantida pela migração 001; falta só mapear o erro para 409."]
+}

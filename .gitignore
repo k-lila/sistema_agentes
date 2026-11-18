@@ -1,0 +1,14 @@
+# ==== Bloco do sistema de agentes: não editar nem remover ====
+# Conferido pelo /fundacao (Etapa 6) e em toda revisão (perfil de stack, "Saída de build").
+
+# Estado local da memória: descreve a cópia de trabalho, não o histórico de uma branch.
+# O hook SessionStart recria os dois arquivos a partir dos modelos quando faltam
+# (.claude/skills/nova-memoria/assets/*.vazio.json). Ver .claude/regras/memoria.md.
+.claude/memoria/task.json
+.claude/memoria/roadmap.json
+
+# Worktrees criadas pelo Claude Code (experimentos do /spike): cópias descartáveis.
+.claude/worktrees/
+
+# ==== Fim do bloco do sistema ====
+# Entradas do projeto (saída de build do perfil de stack), acrescentadas pelo escritor no /fundacao:

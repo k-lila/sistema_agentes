@@ -1,0 +1,265 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "parecer.schema.json",
+  "title": "Parecer do Gerente de Qualidade",
+  "description": "Identificadores: TA-nnn, TQ-nnn e RG-nnn (exigência de regressão do /bugfix) são globais do projeto (não recomeçam por feature); GQ-nnn é contínuo entre as rodadas da mesma feature. Todos aceitam três ou mais dígitos.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "versao_schema",
+    "versao_checklist",
+    "perfil",
+    "tarefa",
+    "rodada",
+    "veredito",
+    "acao_orquestrador",
+    "resumo",
+    "ferramentas",
+    "criterios_aceitacao",
+    "adrs",
+    "contratos",
+    "integridade",
+    "rastreabilidade",
+    "achados",
+    "demanda_de_testes",
+    "nao_avaliado",
+    "resolvidos_desde_rodada_anterior"
+  ],
+  "properties": {
+    "versao_schema": { "const": "1.5.1" },
+    "versao_checklist": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "perfil": {
+      "description": "Perfil de stack usado na revisão e a versão da extensão de checklist dele (qualidade.md).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["nome", "versao"],
+      "properties": {
+        "nome": { "type": "string" },
+        "versao": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" }
+      }
+    },
+    "tarefa": { "enum": ["revisar"] },
+    "rodada": { "type": "integer", "minimum": 1 },
+    "veredito": { "enum": ["aprovado", "aprovado_com_ressalvas", "bloqueado"] },
+    "acao_orquestrador": { "enum": ["integrar", "ciclo_de_correcao", "pausar_e_escalar"] },
+    "resumo": { "type": "string", "maxLength": 600 },
+    "nivel_asvs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["padrao"],
+      "properties": {
+        "padrao": { "const": "L2" },
+        "modulos_l3": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "ferramentas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "nome", "status", "resumo"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^FER-\\d{2}$" },
+          "nome": { "type": "string" },
+          "comando": { "type": "string" },
+          "status": { "enum": ["ok", "falhou", "ausente"] },
+          "resumo": { "type": "string" }
+        }
+      }
+    },
+    "cobertura": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["escopo", "linhas", "ramos", "meta"],
+      "properties": {
+        "escopo": { "enum": ["codigo_alterado", "projeto"] },
+        "linhas": { "type": "number", "minimum": 0, "maximum": 1 },
+        "ramos": { "type": "number", "minimum": 0, "maximum": 1 },
+        "meta": { "const": 0.8 }
+      }
+    },
+    "criterios_aceitacao": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status", "evidencia"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^CA-\\d{2}\\.\\d+$" },
+          "status": { "enum": ["atendido", "parcial", "nao_atendido", "nao_verificavel"] },
+          "evidencia": { "type": "string" }
+        }
+      }
+    },
+    "adrs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "status": { "enum": ["respeitada", "violada", "nao_aplicavel", "contestada"] },
+          "observacao": { "type": "string" }
+        }
+      }
+    },
+    "contratos": {
+      "description": "Situação de cada operação de contrato que a mudança implementa. Vazio quando a entrada 'contratos' é 'nenhum'.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["operacao", "status"],
+        "properties": {
+          "operacao": { "type": "string", "description": "contrato:<arquivo>#<operação>" },
+          "status": { "enum": ["conforme", "divergente"] },
+          "observacao": { "type": "string" }
+        }
+      }
+    },
+    "integridade": {
+      "description": "Arquivos tocados fora da propriedade da etapa. Vazio quando todas as etapas ficaram no seu papel.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["etapa", "commit", "arquivo"],
+        "properties": {
+          "etapa": { "enum": ["gerente-de-produto", "arquiteto", "tester", "escritor", "senso-critico", "orquestrador"] },
+          "commit": { "type": "string" },
+          "arquivo": { "type": "string" },
+          "achado": { "type": "string", "pattern": "^GQ-\\d{3,}$" }
+        }
+      }
+    },
+    "rastreabilidade": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ta_sem_teste", "ca_sem_teste", "testes_orfaos"],
+      "properties": {
+        "ta_sem_teste": { "type": "array", "description": "Exigências sem teste: TA-nnn, TQ-nnn e, no /bugfix, RG-nnn.", "items": { "type": "string", "pattern": "^(T[AQ]|RG)-\\d{3,}(v\\d+)?$" } },
+        "ca_sem_teste": { "type": "array", "items": { "type": "string", "pattern": "^CA-\\d{2}\\.\\d+$" } },
+        "testes_orfaos": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "achados": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/achado" }
+    },
+    "demanda_de_testes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/item_demanda" }
+    },
+    "nao_avaliado": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["caracteristica", "motivo"],
+        "properties": {
+          "caracteristica": { "type": "string" },
+          "motivo": { "type": "string" }
+        }
+      }
+    },
+    "resolvidos_desde_rodada_anterior": { "type": "integer", "minimum": 0 }
+  },
+  "$defs": {
+    "achado": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "chave",
+        "local",
+        "descricao",
+        "referencias",
+        "caracteristica_25010",
+        "pilar",
+        "severidade",
+        "evidencia",
+        "destino",
+        "recorrente",
+        "escalado"
+      ],
+      "properties": {
+        "id": { "type": "string", "pattern": "^GQ-\\d{3,}$" },
+        "chave": {
+          "type": "string",
+          "description": "Referência principal + arquivo + elemento de código (classe, método, chave de configuração). Não usar número de linha. Estável entre rodadas."
+        },
+        "item_checklist": { "type": ["string", "null"] },
+        "local": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["arquivo"],
+          "properties": {
+            "arquivo": { "type": "string" },
+            "linha": { "type": "integer", "minimum": 1 },
+            "elemento": { "type": "string" }
+          }
+        },
+        "descricao": { "type": "string", "maxLength": 400 },
+        "referencias": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["tipo", "id"],
+            "properties": {
+              "tipo": { "enum": ["demanda", "adr", "contrato", "especificacao_teste", "checklist", "cwe", "asvs", "owasp_top10", "padrao_da_stack", "contrato_entrada", "ferramenta"] },
+              "id": { "type": "string" }
+            }
+          }
+        },
+        "caracteristica_25010": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["caracteristica"],
+          "properties": {
+            "caracteristica": {
+              "enum": [
+                "adequacao_funcional",
+                "eficiencia_de_desempenho",
+                "compatibilidade",
+                "capacidade_de_interacao",
+                "confiabilidade",
+                "seguranca",
+                "manutenibilidade",
+                "flexibilidade",
+                "safety"
+              ]
+            },
+            "subcaracteristica": { "type": "string" }
+          }
+        },
+        "pilar": {
+          "enum": ["correcao", "design", "legibilidade", "testes", "seguranca", "desempenho", "idiomas_da_stack", "configuracao", "documentacao", "processo"]
+        },
+        "severidade": { "enum": ["bloqueante", "recomendado", "nit"] },
+        "evidencia": { "enum": ["verificado", "inferido"] },
+        "destino": { "enum": ["escritor", "tester", "arquiteto", "gerente_de_produto", "orquestrador", "usuario"] },
+        "recorrente": { "type": "boolean" },
+        "escalado": { "type": "boolean" }
+      }
+    },
+    "item_demanda": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "comportamento", "fonte_do_oraculo", "nivel", "motivo", "severidade"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^TQ-\\d{3,}$" },
+        "comportamento": { "type": "string", "description": "Dado / Quando / Então." },
+        "fonte_do_oraculo": { "type": "string", "description": "CA-xx.y, contrato:<arquivo>#<operação>, ADR NNNN/d<n>, requisito ASVS/CWE, ou o GQ-nnn que o teste corrige." },
+        "nivel": { "enum": ["unitario", "integracao", "aceitacao", "arquitetura"] },
+        "motivo": { "enum": ["criterio_sem_teste", "caminho_de_erro", "regressao", "risco_de_seguranca", "cobertura", "sugestao_do_arquiteto"] },
+        "achado": { "type": "string", "pattern": "^GQ-\\d{3,}$", "description": "Obrigatório quando motivo é regressao." },
+        "severidade": { "enum": ["bloqueante", "recomendado"] }
+      },
+      "if": { "properties": { "motivo": { "const": "regressao" } } },
+      "then": { "required": ["achado"] }
+    }
+  }
+}

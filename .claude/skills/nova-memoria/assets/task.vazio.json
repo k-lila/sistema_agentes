@@ -1,0 +1,35 @@
+{
+  "_leia_primeiro": [
+    "Estado da tarefa em execução agora; não é log. Escreva seguindo a skill nova-memoria (.claude/skills/nova-memoria/SKILL.md).",
+    "Só o orquestrador escreve aqui. Sem tarefa ativa, tarefa.id é null.",
+    "Os _modelo_* são o formato de cada item, com valores iniciais; significado dos campos em .claude/skills/nova-memoria/assets/campos.md."
+  ],
+  "_modelo_de_criterio": { "criterio": "", "verificado": false, "evidencia": null },
+  "_modelo_de_etapa": { "n": 1, "etapa": "", "responsavel": "orquestrador", "status": "pendente", "impedimento": null },
+  "_modelo_de_arquivo": { "caminho": "", "acao": "modificar", "autorizacao": "A-1", "feito": false },
+  "_modelo_de_autorizacao": { "id": "A-1", "data": null, "escopo": "", "caminhos": [] },
+  "_modelo_de_arquivo_apoio": { "caminho": "", "proposito": "" },
+  "atualizado_em": null,
+  "tarefa": {
+    "id": null,
+    "titulo": null,
+    "demanda": null,
+    "objetivo": null,
+    "criterios_de_aceite": [],
+    "fora_do_escopo": [],
+    "status": null,
+    "iniciada_em": null
+  },
+  "plano": [],
+  "aguardando": null,
+  "proximo_passo": null,
+  "arquivos": [],
+  "autorizacoes": [],
+  "decisoes_registradas": [],
+  "pendencias_de_fechamento": {
+    "apontamentos_sem_disposicao": [],
+    "adrs_pendentes": []
+  },
+  "arquivos_apoio": [],
+  "notas_de_retomada": []
+}

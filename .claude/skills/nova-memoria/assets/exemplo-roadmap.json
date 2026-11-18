@@ -1,0 +1,24 @@
+{
+  "_leia_primeiro": [
+    "Visão do roadmap em curso; o detalhe da tarefa fica em task.json. Escreva seguindo a skill nova-memoria.",
+    "Só o orquestrador escreve aqui. Sem roadmap, roadmap.titulo e tarefa_atual são null; tarefa avulsa vive só em task.json.",
+    "Significado dos campos em .claude/skills/nova-memoria/assets/campos.md."
+  ],
+  "_modelo_de_tarefa": { "id": "TASK-NNN", "titulo": "", "objetivo": "", "status": "planejada", "depende_de": [], "concluida_em": null, "resultado": null },
+  "_modelo_de_arquivo_apoio": { "caminho": "", "proposito": "" },
+  "atualizado_em": "2026-11-20T15:40",
+  "roadmap": {
+    "titulo": "API de cadastro de clientes",
+    "objetivo": "Uma API REST com cadastro, consulta e remoção de clientes, com testes.",
+    "criterio_de_conclusao": "Os três endpoints respondem conforme docs/api.md e a suíte de testes passa.",
+    "status": "em_andamento",
+    "iniciado_em": "2026-11-18"
+  },
+  "tarefa_atual": "TASK-004",
+  "tarefas": [
+    { "id": "TASK-003", "titulo": "Modelo de dados", "objetivo": "Tabela de clientes criada por migração.", "status": "concluida", "depende_de": [], "concluida_em": "2026-11-19", "resultado": "Migração 001 cria a tabela clientes com e-mail único." },
+    { "id": "TASK-004", "titulo": "Endpoint de cadastro", "objetivo": "POST /clientes grava e valida um cliente.", "status": "bloqueada", "depende_de": ["TASK-003"], "concluida_em": null, "resultado": null },
+    { "id": "TASK-005", "titulo": "Consulta e remoção", "objetivo": "GET e DELETE /clientes/{id}.", "status": "planejada", "depende_de": ["TASK-004"], "concluida_em": null, "resultado": null }
+  ],
+  "arquivos_apoio": []
+}

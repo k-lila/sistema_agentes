@@ -1,0 +1,20 @@
+{
+  "_leia_primeiro": [
+    "Visão do roadmap em curso; o detalhe da tarefa fica em task.json. Escreva seguindo a skill nova-memoria.",
+    "Só o orquestrador escreve aqui. Sem roadmap, roadmap.titulo e tarefa_atual são null; tarefa avulsa vive só em task.json.",
+    "Significado dos campos em .claude/skills/nova-memoria/assets/campos.md."
+  ],
+  "_modelo_de_tarefa": { "id": "TASK-NNN", "titulo": "", "objetivo": "", "status": "planejada", "depende_de": [], "concluida_em": null, "resultado": null },
+  "_modelo_de_arquivo_apoio": { "caminho": "", "proposito": "" },
+  "atualizado_em": null,
+  "roadmap": {
+    "titulo": null,
+    "objetivo": null,
+    "criterio_de_conclusao": null,
+    "status": null,
+    "iniciado_em": null
+  },
+  "tarefa_atual": null,
+  "tarefas": [],
+  "arquivos_apoio": []
+}
